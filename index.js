@@ -1,0 +1,131 @@
+var Typer = {
+    text: `<span id="a">adarsh-rathore@dev</span>:<span id="b">~</span><span id="c">$</span> git clone my_profile<!-- kjsdfhkjdhsfkjdshfkj -->
+	<span id="a">adarsh-rathore@dev</span>:<span id="b">~</span><span id="c">$</span> git <!-- kjsdfhkjdhsfkjdshfkj -->run TechBuddy<!-- laglaglaglaglaglaglaglaglaglaglaglag -->
+	<span id="a">TechBuddy</span>:<span id="b">~</span><span id="c">$</span></span> PortFolio of Adarsh Rathore is Uploading<!-- slightdelayhere-->.<!-- slightdelayhere-->.<!-- slightdelayhere-->.<!-- slightdelayhere-->.<!-- slightdelayhere-->.<!-- slightdelayhere-->.<span id="k"></span>
+
+	<span> Welcome to my matrix! I am <span id="a">Adarsh Rathore✌️</span></span>
+	<span>  I am a Developer | Coder | Tech Enthusiast</span>
+	
+	My motto, "<span id="k">To become a successful expert in the field of Information Technology by channelizing my technical knowledge and skills to ensure personal and professional growth and to contribute to the prosperity of the organization.</span>" <!-- sjkfhskjf -->
+	
+	<span>I have completed my B.Tech in <span id="a">Information Technology</span>@ <span id="a">G L Bajaj Institute of Technology and Management, Greater Noida</span>
+	
+    <span> Currently working in <span id="a"> Virtusa </span> as a Associate Software Engineer </span>
+        
+	<span>I have interned with <span id="a">Virtusa Private Limited</span>, 
+    
+    <span> Hands on <span id="a"> Data structures and Algorithms.</span>
+
+    Experience working in front-end development, back-end development.</span>
+    <span>
+    Worked on <span id="a">technologies</span> like
+    In Frontend->  <span id="a">React JS</span>
+    In Backend-> <span id="a">NodeJS, Spring Boot.</span>
+    In DataBase-> <span id="a">MongoDB, MySQL.</span>etc.
+    Languages known -> <span id="a"> Java, C </span>
+    
+    </span>
+	
+
+	
+	<span> Download my resume <a href="https://drive.google.com/drive/folders/1RaVHTLdN7aBy8yj060Swd6XDghbqQ9a_?usp=sharing" target="_blank">here</a></span>
+	
+	I am <span id="a">looking for interesting roles & opportunites</span> relevant to my profile which gives me an opportunity to be involved in amazing projects
+	If you are looking for someone like me or know any opportunities<!-- slightdelayhere-->, feel free to send me an email at<!-- longlonglongcomment --><a href="mailto:adarshrathore14@gmail.com"> adarshrathore14@gmail.com</a>
+	
+	<!-- hsdgfhjfkdjhfkjsdhfkjdshfkjsdhfkjsdhkfjhdskjfhksdjhfkdsj -->
+	<span> Here are few more places you can connect with me - <a href="https://github.com/Adarshrathore14" target="_blank">Github</a>, <a href="https://www.linkedin.com/in/adarsh-rathore-85a4b8156/" target="_blank">LinkedIn</a>  
+    
+	Thanks for visiting !
+	<span id="a">adarsh-rathore@dev</span>:<span id="b">~</span><span id="c">$</span> exit<!-- kjsdfhkjdhsfkjdshfkj -->
+	`,
+    accessCountimer: null,
+    index: 0,
+    speed: 2,
+    accessCount: 0,
+    deniedCount: 0,
+    content: function() {
+        return $("#console").html();
+    },
+
+    write: function(str) {
+        $("#console").append(str);
+        return false;
+    },
+
+    addText: function(key) {
+
+        if (key.keyCode == 18) {
+            Typer.accessCount++;
+
+            if (Typer.accessCount >= 3) {
+                Typer.makeAccess();
+            }
+        } else if (key.keyCode == 20) {
+            Typer.deniedCount++;
+
+            if (Typer.deniedCount >= 3) {
+                Typer.makeDenied();
+            }
+        } else if (key.keyCode == 27) {
+            Typer.hidepop();
+        } else if (Typer.text) {
+            var cont = Typer.content();
+            if (cont.substring(cont.length - 1, cont.length) == "|")
+                $("#console").html($("#console").html().substring(0, cont.length - 1));
+            if (key.keyCode != 8) {
+                Typer.index += Typer.speed;
+            } else {
+                if (Typer.index > 0)
+                    Typer.index -= Typer.speed;
+            }
+            var text = Typer.text.substring(0, Typer.index)
+            var rtn = new RegExp("\n", "g");
+
+            $("#console").html(text.replace(rtn, "<br/>"));
+            window.scrollBy(0, 50);
+        }
+
+        if (key.preventDefault && key.keyCode != 122) {
+            key.preventDefault()
+        };
+
+        if (key.keyCode != 122) { // otherway prevent keys default behavior
+            key.returnValue = false;
+        }
+    },
+
+    updLstChr: function() {
+        var cont = this.content();
+
+        if (cont.substring(cont.length - 1, cont.length) == "|")
+            $("#console").html($("#console").html().substring(0, cont.length - 1));
+
+        else
+            this.write("|"); // else write it
+    }
+}
+
+function replaceUrls(text) {
+    var http = text.indexOf("http://");
+    var space = text.indexOf(".me ", http);
+
+    if (space != -1) {
+        var url = text.slice(http, space - 1);
+        return text.replace(url, "<a href=\"" + url + "\">" + url + "</a>");
+    } else {
+        return text;
+    }
+}
+
+Typer.speed = 3;
+
+var timer = setInterval("t();", 30);
+
+function t() {
+    Typer.addText({ "keyCode": 123748 });
+
+    if (Typer.index > Typer.text.length) {
+        clearInterval(timer);
+    }
+}
